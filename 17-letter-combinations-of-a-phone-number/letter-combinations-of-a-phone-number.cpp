@@ -8,13 +8,11 @@ public:
             return;
         }
         
-        
         char ch = digits[idx];
         string str = mp[ch];
         
         for(int i = 0; i<str.length(); i++) {
             
-            //Do
             temp.push_back(str[i]);
             solve(idx+1, digits, temp, mp);
             temp.pop_back();
