@@ -6,9 +6,7 @@ public:
         int j = n - 1;
         int k = m + n - 1;
 
-        // Loop from k to 0
         while (k > -1){
-            // Means we sorted all of nums1, but we still have to place nums2 elements
             if(i < 0){
                 nums1[k] = nums2[j];
                 j--;
