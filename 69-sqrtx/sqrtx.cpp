@@ -1,14 +1,19 @@
 class Solution {
 public:
     int mySqrt(int x) {
-        int ans = 1;
-        for(long long i = 0; i <= x; i++){
-            if(i*i <= x){
-                ans = i;
+        int start = 1;
+        int end = x;
+
+        while(start <= end){
+            long long mid = start + (end - start) /2;
+            long long ans = (mid * mid);
+
+            if(ans <= x){
+                start = mid + 1;
             }else{
-                break;
+                end = mid - 1;
             }
         }
-        return ans;
+        return end;
     }
 };
