@@ -1,13 +1,11 @@
 class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
-        int leftIndex = lower_bound(nums.begin(), nums.end(), target) - nums.begin();
+        int left_idx = lower_bound(nums.begin(), nums.end(), target) - nums.begin();
 
-        int rightIndex = lower_bound(nums.begin(), nums.end(), target + 1) - nums.begin();
+        int right_idx = lower_bound(nums.begin(), nums.end(), target + 1) - nums.begin();
 
-        if (leftIndex == rightIndex) {
-            return {-1, -1};
-        }
-         return {leftIndex, rightIndex - 1};
+        if(left_idx == right_idx) return {-1, -1};
+        return {left_idx, right_idx - 1};
     }
 };
