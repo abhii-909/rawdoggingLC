@@ -1,15 +1,18 @@
 class Solution {
 public:
     char kthCharacter(int k) {
-        if (k==1) return 'a';
-        int shift=0;
-        for(int b=bit_ceil((unsigned)k); b>1; b>>=1) {
-            if (k>b/2){
-                k-=b/2;
-                shift++;
+        string temp;
+        string s = "ab";
+        while(s.size() < k)
+        {
+            temp = s;
+            for(auto &ch:temp)
+            {
+                if(ch == 'z') ch = 'a';
+                else ch = ch + 1;
             }
+            s += temp;
         }
-        // 'a' shifted by how many times it moved into second half
-        return 'a'+(shift%26);
+        return s[k - 1];
     }
 };
