@@ -2,8 +2,8 @@ class Solution {
 public:
     int singleNumber(vector<int>& nums) {
         int sum = 0;
-        for(auto value : nums){
-            sum = sum ^ value;
+        for(auto val : nums){
+            sum = sum ^ val;
         }
         return sum;
     }
