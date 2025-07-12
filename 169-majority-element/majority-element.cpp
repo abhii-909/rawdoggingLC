@@ -1,14 +1,17 @@
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        //Moore's Voting algo
-        int freq = 0, ans = 0;
+        map<int, int> freq;
+        int n = nums.size();
 
-        for(int val : nums){
-            if(freq == 0) ans = val;
-            if(ans == val) freq++;
-            else freq--;
+        for(auto num : nums){
+            freq[num]++;
         }
-        return ans;
+        for(auto pair : freq){
+            if(pair.second > n/2){
+                return pair.first;
+            }
+        }
+        return -1; 
     }
 };
