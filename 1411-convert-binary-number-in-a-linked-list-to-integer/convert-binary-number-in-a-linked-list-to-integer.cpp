@@ -15,7 +15,7 @@ public:
         ListNode* current = head;
 
         while(current != nullptr){
-            cnt = cnt * 2 + current->val;
+            cnt = cnt * 2 + current->val; //left shift
             current = current->next;
         }
         return cnt;
