@@ -18,7 +18,7 @@ public:
 
             if(l < r){ // l      r
                 reverse(s.begin()+l, s.begin()+r);  // l se r tak reverse kardiya
-                s[r] = ' ';
+                s[r] = ' '; // fir r ko ek space denge after every word
                 r++;
                 l = r; // l ko r ke pass le aayenge
             }
