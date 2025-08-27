@@ -10,7 +10,7 @@ public:
         int n = s.length();
 
         while(i < n){
-            while(i < n && s[i] != ' '){ //i ko agar char dikha toh r ko dega and i++ and r++
+            while(i < n && s[i] != ' '){ //i ko agar char dikha toh r ko dega aur fir i++ & r++
                 s[r] = s[i];
                 i++;
                 r++;
