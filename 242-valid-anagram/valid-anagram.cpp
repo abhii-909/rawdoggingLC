@@ -8,3 +8,5 @@ public:
         else return true;
     }
 };
+
+// TC : O(nlogn)
