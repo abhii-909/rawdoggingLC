@@ -1,12 +1,12 @@
 class Solution {
 public:
-//using map
+//using hashset
     bool containsDuplicate(vector<int>& nums) {
-        unordered_map<int, int> seen;
+        unordered_set<int> seen;
         for (int num : nums) {
-            if (seen[num] >= 1)
+            if (seen.count(num) > 0)
                 return true;
-            seen[num]++;
+            seen.insert(num);
         }
         return false;
     }
