@@ -1,22 +1,21 @@
 class Solution {
 public:
     int maxFreqSum(string s) {
-        vector<int> count(26, 0);
+        unordered_map <char, int> freq;
 
         for(char &ch : s){
-            count[ch - 'a']++;
+            freq[ch]++;
         }
 
         int maxV = 0, maxC = 0;
-
-        for(int i = 0; i < 26; i++){
-            char ch = 'a' + i;
-            if(count[i] ==0) continue;  //unused
+        for(auto &p : freq){
+            char ch = p.first;
+            int f = p.second;
 
             if(ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u'){
-                maxV = max(maxV, count[i]);
+                maxV = max(maxV, f);
             }else{
-                maxC = max(maxC, count[i]);
+                maxC = max(maxC, f);
             }
         }
         return maxV + maxC;
