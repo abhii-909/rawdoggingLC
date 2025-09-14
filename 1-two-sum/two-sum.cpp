@@ -1,27 +1,18 @@
 class Solution {
 public:
+    // Better solution (Hashing)
     vector<int> twoSum(vector<int>& nums, int target) {
-        vector<pair<int,int>> arr;
-        for(int i = 0; i < nums.size(); i++){
-            arr.push_back({nums[i], i});
+        int n = nums.size();
+        map<int,int> mpp;
+
+        for(int i = 0; i < n; i++){
+            int a = nums[i];
+            int more = target - a;
+            if(mpp.find(more) != mpp.end()){
+                return {mpp[more], i};
+            }
+            mpp[a] = i;
         }
-        sort(arr.begin(), arr.end());
-
-        int i = 0, j = nums.size() - 1;
-        while(i < j){
-            int sum = arr[i].first + arr[j].first;
-
-            if(sum == target){
-                return {arr[i].second, arr[j].second};
-            }
-            else if(sum < target){
-                i++;
-            }
-            else{
-                j--;
-            }
-        }
-
-        return {};
+        return {-1, -1};
     }
 };
