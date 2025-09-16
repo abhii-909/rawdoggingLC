@@ -1,5 +1,6 @@
 class Solution {
 public:
+    // BETTER SOLUTION
     int longestOnes(vector<int>& nums, int k) {
         int l = 0, r = 0, maxLen = 0, zeroes = 0;
 
