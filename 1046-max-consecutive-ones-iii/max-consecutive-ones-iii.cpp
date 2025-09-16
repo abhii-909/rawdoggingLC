@@ -5,7 +5,7 @@ public:
 
         while(r < nums.size()){
             if(nums[r] == 0) zeroes++;
-            
+
             if(zeroes > k){
                 if(nums[l] == 0) zeroes--;
                 l++;
@@ -19,3 +19,6 @@ public:
         return maxLen;
     }
 };
+
+
+// TC: O(n)
