@@ -15,11 +15,11 @@ public:
         ListNode* curr = head;
         ListNode* saveNext = NULL;
 
-        while(curr != NULL) {
-            saveNext = curr->next;
+        while(curr != NULL){
+            saveNext = curr -> next;
             curr->next = prev;
 
-            prev = curr;
+            prev  = curr;
             curr = saveNext;
         }
         return prev;
