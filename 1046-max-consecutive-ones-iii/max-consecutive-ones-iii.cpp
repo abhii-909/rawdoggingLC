@@ -1,13 +1,13 @@
 class Solution {
 public:
-    // BETTER SOLUTION
+    // BEST SOLUTION
     int longestOnes(vector<int>& nums, int k) {
-        int l = 0, r = 0, maxLen = 0, zeroes = 0;
+        int l = 0, r = 0, zeroes = 0, maxLen = 0;
 
         while(r < nums.size()){
             if(nums[r] == 0) zeroes++;
 
-            while(zeroes > k){
+            if(zeroes > k){
                 if(nums[l] == 0) zeroes--;
                 l++;
             }
@@ -22,4 +22,4 @@ public:
 };
 
 
-// TC: O(n^2)
+// TC: O(n)
