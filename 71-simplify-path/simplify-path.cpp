@@ -1,37 +1,29 @@
+// THODI SI BETTER APPROACH HAI W/O STACK TO IMPROVE THE RUNTIME USING A VECTOR INSTEAD
+
+
 class Solution {
 public:
     string simplifyPath(string path) {
-        stack<string> st;
+        vector<string> dirs;
         string dir;
         stringstream ss(path);
 
         while(getline(ss, dir, '/')){
-            if(dir == "" || dir == ".") continue;      //ignore karke badhte raho
-
+            if(dir == "" || dir == ".") continue;     // ignore
             else if(dir == ".."){
-                if(!st.empty()) st.pop();      // pehle wali dir pe aajao
+                if(!dirs.empty()) dirs.pop_back();    // previous dir
             }else{
-                st.push(dir);              // valid dir
+                dirs.push_back(dir);                  // valid dir
             }
         }
-        // ab simplified path banate hai
+
+        // ab simplified string banate hai
         string res;
-        stack<string> temp;       // using stack to reverse the order
-
-        while(!st.empty()){
-            temp.push(st.top());
-            st.pop();
+        for(auto &d : dirs){
+            res += "/" + d;
         }
-        while(!temp.empty()){
-            res += "/" + temp.top();
-            temp.pop();
-        }
-
-        // agar root dir hai toh
-        if(res.empty()){
-            return "/";
-        }else{
-            return res;
-        }
+        // if root dir
+        if(res.empty()) return "/";
+        else return res;
     }
 };
