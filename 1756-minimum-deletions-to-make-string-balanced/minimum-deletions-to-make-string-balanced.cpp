@@ -1,21 +1,15 @@
 class Solution {
 public:
     int minimumDeletions(string s) {
-        if(s.length() < 2) return 0;
+        int ans = 0, cnt = 0;
 
-        int aCnt = 0, bCnt = 0;
-
-        for(int i = 0; i < s.length(); i++){
-            if(s[i] == 'a') bCnt++;
+        for(char c: s){
+            if(c == 'b') cnt++;
+            else if(cnt != 0){
+                ans++;
+                cnt--;
+            }
         }
-
-        int deletion = bCnt;
-        for(int i = 0; i < s.length(); i++){
-            if(s[i] == 'a') bCnt--;
-            else aCnt++;
-
-            deletion = min(deletion, aCnt + bCnt);
-        }
-        return deletion;
+        return ans;
     }
 };
