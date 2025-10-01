@@ -8,7 +8,7 @@ public:
         for(int r = 0; r < nums.size(); r++){
             sum += nums[r];
 
-            while((long long)nums[r] * (r - l + 1) - sum > k){
+            while((long long)nums[r] * (r - l + 1) > sum + k){
                 sum -= nums[l];
                 l++;
             }
