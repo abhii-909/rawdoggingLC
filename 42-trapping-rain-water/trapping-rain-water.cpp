@@ -1,3 +1,5 @@
+// Prefix array approach --> Method 1
+
 class Solution {
 public:
     int trap(vector<int>& height) {
@@ -24,3 +26,7 @@ public:
         return ans;
     }
 };
+
+
+// TC: O(n)
+// SC: O(n)
