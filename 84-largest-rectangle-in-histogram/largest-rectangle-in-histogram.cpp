@@ -1,4 +1,3 @@
-// C++
 class Solution {
 public:
     int largestRectangleArea(vector<int>& heights) {
@@ -16,6 +15,7 @@ public:
             st.push(i);
         }
 
+        // reset the stack
         while (!st.empty()) st.pop();
 
         // NSE
