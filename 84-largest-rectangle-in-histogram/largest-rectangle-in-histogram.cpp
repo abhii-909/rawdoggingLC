@@ -20,7 +20,9 @@ public:
 
         // NSE
         for (int i = n - 1; i >= 0; i--) {
-            while (!st.empty() && heights[st.top()] >= heights[i]) st.pop();
+            while (!st.empty() && heights[st.top()] >= heights[i]){
+                st.pop();
+            }
             right[i] = st.empty() ? n : st.top();
             st.push(i);
         }
