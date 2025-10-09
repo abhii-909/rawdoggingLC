@@ -3,12 +3,15 @@ class Solution {
 public:
     int largestRectangleArea(vector<int>& heights) {
         int n = heights.size();
+        int maxArea = 0;
         vector<int> left(n), right(n);
         stack<int> st;
 
         // PSE
         for (int i = 0; i < n; i++) {
-            while (!st.empty() && heights[st.top()] >= heights[i]) st.pop();
+            while (!st.empty() && heights[st.top()] >= heights[i]){
+                st.pop();
+            }
             left[i] = st.empty() ? -1 : st.top();
             st.push(i);
         }
@@ -22,7 +25,6 @@ public:
             st.push(i);
         }
 
-        int maxArea = 0;
         for (int i = 0; i < n; i++) {
             int width = right[i] - left[i] - 1;
             maxArea = max(maxArea, heights[i] * width);
