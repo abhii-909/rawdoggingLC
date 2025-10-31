@@ -1,13 +1,14 @@
 class Solution {
 public:
     vector<int> getSneakyNumbers(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-
+        unordered_set<int> seen;
         vector<int> res;
-
-        for(int i = 1; i<nums.size(); i++){
-            if(nums[i]==nums[i-1]){
-                res.push_back(nums[i]);
+        
+        for (int num : nums) {
+            if (seen.count(num)) {
+                res.push_back(num);
+            } else {
+                seen.insert(num);
             }
         }
         return res;
