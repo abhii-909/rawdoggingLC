@@ -1,14 +1,21 @@
 class Solution {
 public:
-    int findGCD(vector<int>& nums) {
-        int mx = *max_element(nums.begin(), nums.end());
-        int mn = *min_element(nums.begin(), nums.end());
-
-        while (mn != 0) {
-            int temp = mx % mn;
-            mx = mn;
-            mn = temp;
+    int gcd(int a, int b) {
+        int ans;
+        if (b == 0){
+            ans = a;
+        }else{
+            return gcd(b, a % b);
         }
-        return mx;
+        return ans;
+    }
+    int findGCD(vector<int>& nums) {
+        int minimum = INT_MAX;
+        int maximum = INT_MIN;
+        for (int i = 0; i < nums.size(); i++) {
+            minimum = min(minimum, nums[i]);
+            maximum = max(maximum, nums[i]);
+        }
+        return gcd(minimum, maximum);
     }
 };
