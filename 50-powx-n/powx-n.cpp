@@ -1,27 +1,15 @@
 class Solution {
 public:
-    double myPow(double x, int n) {
-        if(n == 0) return 1.0;
-        if(x == 0) return 0.0;
-        if(x == 1) return 1.0;
-        if(x == -1 && n%2 == 0) return 1.0;
-        if(x == -1 && n%2 != 0) return -1.0;
+    double solve(double x, long n){
+        if(n == 0) return 1;
+
+        if(n < 0) return solve(1/x, -n);
         
-        long long binForm = n;
-        if(n < 0){
-            x = 1/x;
-            binForm = -binForm;
-        }
+        if(n % 2 == 0) return solve(x*x, n/2);
+        return x * solve(x*x, (n-1)/2);
+    }
 
-        double ans = 1;
-
-        while(binForm > 0){
-            if(binForm % 2 == 1){
-                ans *= x;
-            }
-            x *= x;
-            binForm /= 2;
-        }
-        return ans;
+    double myPow(double x, int n) {
+        return solve(x, (long)n);
     }
 };
