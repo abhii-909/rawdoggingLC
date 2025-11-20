@@ -1,20 +1,16 @@
 class Solution {
+private:
+    int findR(vector<int>& nums, int s, int e, int target){
+        if(s > e) return -1;
+
+        int mid = s + (e - s)/2;
+
+        if(nums[mid] == target) return mid;
+        else if(nums[mid] > target) return findR(nums, s, mid-1, target);
+        return findR(nums, mid+1, e, target);
+    }
 public:
     int search(vector<int>& nums, int target) {
-        int start = 0;
-        int end = nums.size() - 1;
-
-        while(start <= end){
-            int mid = start + (end - start) / 2;
-
-            if(target < nums[mid]){
-                end = mid - 1;
-            }else if(target > nums[mid]){
-                start = mid + 1;
-            }else{
-                return mid;
-            }
-        }
-        return -1;
+        return findR(nums, 0, nums.size()-1, target);
     }
 };
