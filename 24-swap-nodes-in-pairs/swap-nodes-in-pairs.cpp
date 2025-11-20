@@ -13,11 +13,11 @@ public:
     ListNode* swapPairs(ListNode* head) {
         if(!head or !head->next) return head;
 
-        ListNode* nextNode = head->next;
-        head->next = swapPairs(nextNode->next);
+        ListNode* temp = head->next;
+        head->next = swapPairs(temp->next);
 
-        nextNode->next = head;
+        temp->next = head;
 
-        return nextNode;
+        return temp;
     }
 };
