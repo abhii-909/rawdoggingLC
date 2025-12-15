@@ -1,29 +1,32 @@
 class Solution {
 public:
-    int dp[205][20005];
+    vector<vector<int>> dp;
 
-    bool ispossible(int i, int sum, vector<int>& nums){
-        if(sum == 0) return true;
-        if(i == nums.size() || sum < 0) return false;
-        
-        if(dp[i][sum] != -1) return dp[i][sum];
+    bool solve(int i, int sum, vector<int>& nums) {
+        if (sum == 0) return true;
+        if (i == nums.size()) return false;
 
-        //take
-        bool a = ispossible(i+1, sum - nums[i], nums);
-        //not take
-        bool b = ispossible(i+1, sum, nums);
+        if (dp[i][sum] != -1) return dp[i][sum];
 
-        return dp[i][sum] = (a || b);
+        bool notTake = solve(i + 1, sum, nums);
+        bool take = false;
+
+        if (nums[i] <= sum) {
+            take = solve(i + 1, sum - nums[i], nums);
+        }
+
+        return dp[i][sum] = take || notTake;
     }
 
     bool canPartition(vector<int>& nums) {
-        int sum = 0;
+        int totalSum = 0;
+        for (int x : nums) totalSum += x;
 
-        for(auto x : nums) sum += x;
+        if (totalSum % 2 != 0) return false;
 
-        if(sum % 2) return false;
+        int target = totalSum / 2;
+        dp.assign(nums.size(), vector<int>(target + 1, -1));
 
-        memset(dp, -1, sizeof(dp));
-        return ispossible(0, sum/2, nums);
+        return solve(0, target, nums);
     }
 };
