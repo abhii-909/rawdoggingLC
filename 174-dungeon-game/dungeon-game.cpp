@@ -1,6 +1,9 @@
 class Solution {
-    int solve(vector<vector<int>>& dungeon, vector<vector<int>>& dp, int m, int n, int i, int j) {
-        
+public:
+    int m, n;
+    int dp[205][205];
+
+    int solve(int i , int j, vector<vector<int>>& dungeon){
         // Base Case: Reached the destination
         if (i == m - 1 && j == n - 1){
             if(dungeon[i][j] <=0){
@@ -17,27 +20,17 @@ class Solution {
         if (dp[i][j] != -1) return dp[i][j];
 
         // Recursive calls for Right and Down
-        int right = solve(dungeon, dp, m, n, i, j + 1);
-        int down = solve(dungeon, dp, m, n, i + 1, j);
+        int right = solve(i, j + 1, dungeon);
+        int down = solve(i + 1, j, dungeon);
 
-        // Calculate minimum health needed to survive next step
-        int minNext = min(right, down);
-        
-        // Calculate health needed at current step
-        int need = minNext - dungeon[i][j];
-        
-        // Health cannot be <= 0, so at least 1 is required
+        int need = min(right, down) - dungeon[i][j];
         return dp[i][j] = max(1, need);
     }
-
-public:
     int calculateMinimumHP(vector<vector<int>>& dungeon) {
-        int m = dungeon.size();
-        int n = dungeon[0].size();
+        m = dungeon.size();
+        n = dungeon[0].size();
 
-        // Initialize DP table with -1
-        vector<vector<int>> dp(m, vector<int>(n, -1));
-        
-        return solve(dungeon, dp, m, n, 0, 0);
+        memset(dp, -1, sizeof(dp));
+        return solve(0, 0, dungeon);
     }
 };
