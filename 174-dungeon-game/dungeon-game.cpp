@@ -1,9 +1,7 @@
 // BRUTE FORCE (DFS)
 
 class Solution {
-    // DFS Helper to check if a specific initial health 'k' works
-    bool canSurvive(vector<vector<int>>& dungeon, vector<vector<int>>& best,
-                    int m, int n, int i, int j, int currentHealth) {
+    bool canSurvive(vector<vector<int>>& dungeon, vector<vector<int>>& best, int m, int n, int i, int j, int currentHealth) {
         
         // Boundary check
         if (i >= m || j >= n) return false;
@@ -35,6 +33,7 @@ public:
         // Linear search for the minimum k
         while (true) {
             vector<vector<int>> best(m, vector<int>(n, INT_MIN));
+
             if (canSurvive(dungeon, best, m, n, 0, 0, k)) {
                 return k;
             }
