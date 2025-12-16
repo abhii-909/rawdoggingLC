@@ -1,44 +1,39 @@
-// BRUTE FORCE (DFS)
-
 class Solution {
-    bool canSurvive(vector<vector<int>>& dungeon, vector<vector<int>>& best, int m, int n, int i, int j, int currentHealth) {
+    int solve(vector<vector<int>>& dungeon, vector<vector<int>>& dp, int m, int n, int i, int j) {
         
-        // Boundary check
-        if (i >= m || j >= n) return false;
+        // Base Case: Reached the destination
+        if (i == m - 1 && j == n - 1){
+            return max(1, 1 - dungeon[i][j]);
+        }
 
-        // Apply room effect
-        int newHealth = currentHealth + dungeon[i][j];
+        // Out of bounds check (return huge value so this path isn't chosen)
+        if (i >= m || j >= n) return INT_MAX;
 
-        // Death check: Health must be > 0
-        if (newHealth <= 0) return false;
+        // Return memoized value
+        if (dp[i][j] != -1) return dp[i][j];
 
-        // Pruning: If we reached this cell before with more health, stop this path
-        if (newHealth <= best[i][j]) return false;
-        best[i][j] = newHealth;
+        // Recursive calls for Right and Down
+        int right = solve(dungeon, dp, m, n, i, j + 1);
+        int down = solve(dungeon, dp, m, n, i + 1, j);
 
-        // Destination reached safely
-        if (i == m - 1 && j == n - 1) return true;
-
-        // Move Right or Down
-        return canSurvive(dungeon, best, m, n, i, j + 1, newHealth) ||
-               canSurvive(dungeon, best, m, n, i + 1, j, newHealth);
+        // Calculate minimum health needed to survive next step
+        int minNext = min(right, down);
+        
+        // Calculate health needed at current step
+        int need = minNext - dungeon[i][j];
+        
+        // Health cannot be <= 0, so at least 1 is required
+        return dp[i][j] = max(1, need);
     }
 
 public:
     int calculateMinimumHP(vector<vector<int>>& dungeon) {
         int m = dungeon.size();
         int n = dungeon[0].size();
-        int k = 1;
 
-        // Linear search for the minimum k
-        while (true) {
-            vector<vector<int>> best(m, vector<int>(n, INT_MIN));
-
-            if (canSurvive(dungeon, best, m, n, 0, 0, k)) {
-                return k;
-            }
-            k++;
-        }
-        return -1; // Should not reach here
+        // Initialize DP table with -1
+        vector<vector<int>> dp(m, vector<int>(n, -1));
+        
+        return solve(dungeon, dp, m, n, 0, 0);
     }
 };
