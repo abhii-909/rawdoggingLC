@@ -1,59 +1,28 @@
-//BINARY SEARCH + DP (SLOW)
+//DP (OPTIMAL)
 
 class Solution {
 public:
-    int m, n;
-    vector<vector<int>> d;
-
-    bool canSurvive(int H) {
-        vector<vector<int>> dp(m, vector<int>(n, -1));
-
-        int start = H + d[0][0];
-        if (start <= 0) return false;
-
-        dp[0][0] = start;
-
-        for (int i = 0; i < m; i++) {
-
-            for (int j = 0; j < n; j++) {
-
-                if (dp[i][j] <= 0) continue;
-
-                if (i + 1 < m) {
-                    int nh = dp[i][j] + d[i + 1][j];
-                    if (nh > 0){
-                        dp[i + 1][j] = max(dp[i + 1][j], nh);
-                    }
-                }
-
-                if (j + 1 < n) {
-                    int nh = dp[i][j] + d[i][j + 1];
-
-                    if (nh > 0){
-                        dp[i][j + 1] = max(dp[i][j + 1], nh);
-                    }
-                }
-            }
-        }
-        return dp[m - 1][n - 1] > 0;
-    }
-
     int calculateMinimumHP(vector<vector<int>>& dungeon) {
-        d = dungeon;
-        m = d.size();
-        n = d[0].size();
+        int m = dungeon.size();
+        int n = dungeon[0].size();
 
-        int low = 1, high = 1e9, ans = high;
+        // dp[i][j] = min health req for entering
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1, INT_MAX));
 
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
-            if (canSurvive(mid)) {
-                ans = mid;
-                high = mid - 1;
-            } else {
-                low = mid + 1;
+        // to avoid boundary checks
+        dp[m][n - 1] = 1;
+        dp[m - 1][n] = 1;
+
+        // Fill DP from bottom-right to top-left
+        for (int i = m - 1; i >= 0; i--) {
+
+            for (int j = n - 1; j >= 0; j--) {
+                
+                int need = min(dp[i + 1][j], dp[i][j + 1]) - dungeon[i][j];
+
+                dp[i][j] = max(1, need);
             }
         }
-        return ans;
+        return dp[0][0];
     }
 };
