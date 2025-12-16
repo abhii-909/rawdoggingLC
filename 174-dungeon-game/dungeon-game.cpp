@@ -3,7 +3,11 @@ class Solution {
         
         // Base Case: Reached the destination
         if (i == m - 1 && j == n - 1){
-            return max(1, 1 - dungeon[i][j]);
+            if(dungeon[i][j] <=0){
+                return 1 + abs(dungeon[i][j]);
+            }else{
+                return 1;
+            }
         }
 
         // Out of bounds check (return huge value so this path isn't chosen)
