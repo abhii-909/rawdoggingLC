@@ -1,28 +1,45 @@
-//DP (OPTIMAL)
+// BRUTE FORCE (DFS)
 
 class Solution {
+    // DFS Helper to check if a specific initial health 'k' works
+    bool canSurvive(vector<vector<int>>& dungeon, vector<vector<int>>& best,
+                    int m, int n, int i, int j, int currentHealth) {
+        
+        // Boundary check
+        if (i >= m || j >= n) return false;
+
+        // Apply room effect
+        int newHealth = currentHealth + dungeon[i][j];
+
+        // Death check: Health must be > 0
+        if (newHealth <= 0) return false;
+
+        // Pruning: If we reached this cell before with more health, stop this path
+        if (newHealth <= best[i][j]) return false;
+        best[i][j] = newHealth;
+
+        // Destination reached safely
+        if (i == m - 1 && j == n - 1) return true;
+
+        // Move Right or Down
+        return canSurvive(dungeon, best, m, n, i, j + 1, newHealth) ||
+               canSurvive(dungeon, best, m, n, i + 1, j, newHealth);
+    }
+
 public:
     int calculateMinimumHP(vector<vector<int>>& dungeon) {
         int m = dungeon.size();
         int n = dungeon[0].size();
+        int k = 1;
 
-        // dp[i][j] = min health req for entering
-        vector<vector<int>> dp(m + 1, vector<int>(n + 1, INT_MAX));
-
-        // to avoid boundary checks
-        dp[m][n - 1] = 1;
-        dp[m - 1][n] = 1;
-
-        // Fill DP from bottom-right to top-left
-        for (int i = m - 1; i >= 0; i--) {
-
-            for (int j = n - 1; j >= 0; j--) {
-                
-                int need = min(dp[i + 1][j], dp[i][j + 1]) - dungeon[i][j];
-
-                dp[i][j] = max(1, need);
+        // Linear search for the minimum k
+        while (true) {
+            vector<vector<int>> best(m, vector<int>(n, INT_MIN));
+            if (canSurvive(dungeon, best, m, n, 0, 0, k)) {
+                return k;
             }
+            k++;
         }
-        return dp[0][0];
+        return -1; // Should not reach here
     }
 };
