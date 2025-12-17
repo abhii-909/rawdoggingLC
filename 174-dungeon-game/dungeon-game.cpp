@@ -3,34 +3,32 @@ public:
     int m, n;
     int dp[205][205];
 
-    int solve(int i , int j, vector<vector<int>>& dungeon){
-        // Base Case: Reached the destination
-        if (i == m - 1 && j == n - 1){
-            if(dungeon[i][j] <=0){
-                return 1 + abs(dungeon[i][j]);
-            }else{
-                return 1;
-            }
-        }
-
-        // Out of bounds check (return huge value so this path isn't chosen)
-        if (i >= m || j >= n) return INT_MAX;
-
-        // Return memoized value
-        if (dp[i][j] != -1) return dp[i][j];
-
-        // Recursive calls for Right and Down
-        int right = solve(i, j + 1, dungeon);
-        int down = solve(i + 1, j, dungeon);
-
-        int need = min(right, down) - dungeon[i][j];
-        return dp[i][j] = max(1, need);
-    }
     int calculateMinimumHP(vector<vector<int>>& dungeon) {
         m = dungeon.size();
         n = dungeon[0].size();
 
-        memset(dp, -1, sizeof(dp));
-        return solve(0, 0, dungeon);
+        // Initialize dp with INT_MAX
+        for (int i = 0; i <= m; i++) {
+            
+            for (int j = 0; j <= n; j++) {
+                dp[i][j] = INT_MAX;
+            }
+        }
+
+        // Base conditions (virtual cells)
+        dp[m][n - 1] = 1;
+        dp[m - 1][n] = 1;
+
+        // Fill table bottom-up
+        for (int i = m - 1; i >= 0; i--) {
+
+            for (int j = n - 1; j >= 0; j--) {
+
+                int need = min(dp[i + 1][j], dp[i][j + 1]) - dungeon[i][j];
+                dp[i][j] = max(1, need);
+            }
+        }
+
+        return dp[0][0];
     }
 };
