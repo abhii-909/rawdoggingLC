@@ -38,3 +38,9 @@ public:
         return mp[head];
     }
 };
+
+//TC: O(2n)
+//SC: O(n) + O(n)
+
+// NOTE: this approach works but it's not the optimal solution
+// need to optimise the space
