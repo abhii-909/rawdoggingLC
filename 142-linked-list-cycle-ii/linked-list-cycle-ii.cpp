@@ -10,15 +10,14 @@ class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
         unordered_set<ListNode*> seen;
+        return find(head, seen);
+    }
 
-        while (head) {
-            if (seen.find(head) != seen.end()) {
-                return head;
-            }
-            seen.insert(head);
-            head = head->next;
-        }
-
-        return nullptr;
+private:
+    ListNode* find(ListNode* node, std::unordered_set<ListNode*>& seen) {
+        if (!node) return nullptr;
+        if (seen.find(node) != seen.end()) return node;
+        seen.insert(node);
+        return find(node->next, seen);
     }
 };
