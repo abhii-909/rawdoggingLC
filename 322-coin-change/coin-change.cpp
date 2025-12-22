@@ -1,31 +1,25 @@
 class Solution {
 public:
-    vector<int> dp;
-
-    int solve(vector<int>& coins, int amount) {
-        // base case
-        if (amount == 0) return 0;
-        if (amount < 0) return -1;
-
-        // memo check
-        if (dp[amount] != -2) return dp[amount];
-
-        int mini = INT_MAX;
-
-        for (int x : coins) {
-            int ans = solve(coins, amount - x);
-            if (ans >= 0 && ans < mini) {
-                mini = 1 + ans;
+    int coinChange(vector<int>& coins, int amount) {
+        // dp[i] will be storing the minimum number of coins required for amount i.
+        // We use amount + 1 as an "infinity" value.
+        vector<int> dp(amount + 1, amount + 1);
+        
+        // Base case: 0 coins are needed for amount 0.
+        dp[0] = 0;
+        
+        // Iterate through all amounts from 1 to the target amount.
+        for (int i = 1; i <= amount; ++i) {
+            // For each amount, check each coin.
+            for (int coin : coins) {
+                if (i - coin >= 0) {
+                    // If we can use this coin, update the dp table for the current amount.
+                    dp[i] = min(dp[i], 1 + dp[i - coin]);
+                }
             }
         }
-
-        // store result
-        dp[amount] = (mini == INT_MAX) ? -1 : mini;
-        return dp[amount];
-    }
-
-    int coinChange(vector<int>& coins, int amount) {
-        dp.resize(amount + 1, -2);
-        return solve(coins, amount);
+        
+        // If dp[amount] is still the "infinity" value, it means the amount cannot be formed.
+        return dp[amount] > amount ? -1 : dp[amount];
     }
 };
