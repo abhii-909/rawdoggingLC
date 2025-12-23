@@ -4,6 +4,7 @@ public:
         int m = text1.length();
         int n = text2.length();
         vector<vector<int>> t(m + 1, vector<int>(n + 1));
+        
         for (int i = 0; i <= m; i++) {
             t[i][0] = 0;
         }
