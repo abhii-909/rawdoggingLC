@@ -37,24 +37,24 @@ class Solution {
 public:
     int maxProfit(vector<int>& prices) {
         int n = prices.size();
+        vector<vector<int>> dp(n, vector<int>(2, 0));
 
-        // dp[i][flag]
-        vector<vector<int>> dp(n + 1, vector<int>(2, 0));
+        dp[n - 1][0] = 0;
+        dp[n - 1][1] = prices[n - 1];
 
-        for (int i = n - 1; i >= 0; i--) {
-            // flag = 0
+        for (int i = n - 2; i >= 0; i--) {
+            // buy
             dp[i][0] = max(
-                -prices[i] + dp[i + 1][1],  // buy
-                dp[i + 1][0]                // skip
+                -prices[i] + dp[i + 1][1],
+                dp[i + 1][0]
             );
 
-            // flag = 1
+            // sell
             dp[i][1] = max(
-                prices[i] + dp[i + 1][0],   // sell
-                dp[i + 1][1]                // skip
+                prices[i] + dp[i + 1][0],
+                dp[i + 1][1]
             );
         }
-
         return dp[0][0];
     }
 };
