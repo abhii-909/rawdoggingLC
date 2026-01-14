@@ -1,67 +1,41 @@
-// PLAIN RECURSION  --> TLE
+//RECURSION
 
 // class Solution {
 // public:
 //     int climbStairs(int n) {
-//         if(n <= 1) return 1;
-//         return climbStairs(n-1) + climbStairs(n-2);
+//         if(n < 0) return 0;
+//         if(n == 0) return 1;
+
+//         int one_step = climbStairs(n-1);
+//         int two_steps = climbStairs(n-2);
+
+//         return one_step + two_steps;
 //     }
 // };
 
-// M1  --->   TOP-DOWN DP
+//____________________________________________________________________________________________
 
-// class Solution {
-// public:
-//     int solve(int n, vector<int>& dp){
-//         if(n <= 1) return 1;
-
-//         if(dp[n] != -1) return dp[n];
-
-//         return dp[n] = solve(n-1, dp) + solve(n-2, dp);
-//     }
-
-//     int climbStairs(int n) {
-//         vector<int> dp(n+1, -1);
-//         return solve(n, dp);
-//     }
-// };
-
-
-// M2  ----> BOTTOM-UP DP
-
-// class Solution {
-// public:
-//     int climbStairs(int n) {
-//         if(n <= 1) return 1;
-
-//         vector<int> dp(n+1, -1);
-//         dp[0] = 1;
-//         dp[1] = 1;
-
-//         for(int i = 2; i <= n; i++){
-//             dp[i] = dp[i-1] + dp[i-2];
-//         }
-//         return dp[n];
-//     }
-// };
-
-
-// Space Optimized DP (Two Variables)
+//MEMOIZATION
 
 class Solution {
 public:
+    vector<int> dp;
+
+    int solve(int n)
+    {
+        if(n < 0) return 0;
+        if(n == 0) return 1;
+
+        if(dp[n] != -1) return dp[n];
+
+        int one_step = solve(n-1);
+        int two_steps = solve(n-2);
+
+        return dp[n] = one_step + two_steps;
+    }
+
     int climbStairs(int n) {
-        if(n <= 1) return 1;
-
-        int prev2 = 1;  
-        int prev1 = 1;  
-
-        for(int i = 2; i <= n; i++){
-            int curr = prev1 + prev2;
-            prev2 = prev1;
-            prev1 = curr;
-        }
-
-        return prev1;
+        dp.assign(n+1, -1);
+        return solve(n);
     }
 };
