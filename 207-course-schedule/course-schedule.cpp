@@ -1,36 +1,34 @@
 class Solution {
-private:
-    bool dfs(int node, const vector<vector<int>>& adj, vector<bool>& vis, vector<bool>& path) {
-        vis[node] = path[node] = true;
-
-        for (int next : adj[node]) {
-            if (!vis[next]) {
-                if (dfs(next, adj, vis, path)) return true;
-            } else if (path[next]) {
-                return true;
-            }
-        }
-        
-        path[node] = false;
-        return false;
-    }
-
 public:
-    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        vector<vector<int>> adj(numCourses);
-        for (const auto& pre : prerequisites) {
-            adj[pre[1]].push_back(pre[0]);
+    bool canFinish(int n, vector<vector<int>>& prerequisites) {
+        vector<int> adj[n];
+        vector<int> indegree(n, 0);
+        vector<int> ans;
+
+        for(auto x: prerequisites){
+            adj[x[0]].push_back(x[1]);
+            indegree[x[1]]++;
         }
 
-        vector<bool> vis(numCourses, false);
-        vector<bool> path(numCourses, false);
-
-        for (int i = 0; i < numCourses; ++i) {
-            if (!vis[i]) {
-                if (dfs(i, adj, vis, path)) return false;
+        queue<int> q;
+        for(int i = 0; i < n; i++){
+            if(indegree[i] == 0){
+                q.push(i);
             }
         }
 
-        return true;
+        while(!q.empty()){
+            auto t = q.front();
+            ans.push_back(t);
+            q.pop();
+
+            for(auto x: adj[t]){
+                indegree[x]--;
+                if(indegree[x] == 0){
+                    q.push(x);
+                }
+            }
+        }
+        return ans.size() == n;
     }
 };
