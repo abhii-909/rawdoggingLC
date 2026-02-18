@@ -1,10 +1,10 @@
 class Solution {
 public:
-    typedef pair<int, pair<int, int>> P;
+    typedef pair<int, pair<int, int>> p;
     vector<vector<int>> dirs = 
-        {
-            {-1, 0}, {1, 0}, {0, -1}, {0, 1}
-        };
+    {
+        {-1, 0}, {1, 0}, {0, 1}, {0, -1}
+    }; 
 
     int minimumEffortPath(vector<vector<int>>& heights) {
         int m = heights.size();
@@ -12,16 +12,16 @@ public:
 
         vector<vector<int>> res(m, vector<int>(n, 1e9));
 
-        priority_queue<P, vector<P>, greater<P>> pq;
+        priority_queue<p, vector<p>, greater<p>> pq;
 
         auto isSafe = [&](int x, int y){
-            return x >= 0 && x < m && y >= 0 && y < n;
+            return (x >= 0 && x < m && y >= 0 && y < n);
         };
 
         res[0][0] = 0;
-        pq.push({0, {0, 0}});
+        pq.push({0, {0,0}});
 
-        while(!pq.empty()) {
+        while(!pq.empty()){
             int diff = pq.top().first;
             auto coord = pq.top().second;
             pq.pop();
@@ -29,17 +29,17 @@ public:
             int x = coord.first;
             int y = coord.second;
 
-            for(auto &dir : dirs) {
-                int xNew = x + dir[0];
-                int yNew = y + dir[1];
+            for(auto &dir : dirs){
+                int xNew = dir[0] + x;
+                int yNew = dir[1] + y;
 
-                if(isSafe(xNew, yNew)) {
+                if(isSafe(xNew, yNew)){
                     int absDiff = abs(heights[x][y] - heights[xNew][yNew]);
                     int maxDiff = max(diff, absDiff);
 
-                    if(res[xNew][yNew] > maxDiff) {
+                    if(res[xNew][yNew] > maxDiff){
                         res[xNew][yNew] = maxDiff;
-                        pq.push({maxDiff, {xNew, yNew}});
+                        pq.push({maxDiff, {xNew,yNew}});
                     }
                 }
             }
