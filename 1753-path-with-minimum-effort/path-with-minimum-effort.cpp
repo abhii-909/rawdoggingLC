@@ -29,6 +29,8 @@ public:
             int x = coord.first;
             int y = coord.second;
 
+            if(x == m-1 && y == n-1) return diff;
+
             for(auto &dir : dirs){
                 int xNew = dir[0] + x;
                 int yNew = dir[1] + y;
