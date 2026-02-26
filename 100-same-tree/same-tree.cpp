@@ -12,13 +12,19 @@
 class Solution {
 public:
     bool isSameTree(TreeNode* p, TreeNode* q) {
-        if(p == NULL && q == NULL) return true;
+        stack<pair<TreeNode*, TreeNode*>> st;
+        st.push({p, q});
 
-        if(p == NULL || q == NULL) return false;
+        while(!st.empty()){
+            auto [n1, n2] = st.top();
+            st.pop();
 
-        if(p->val == q->val){
-            return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+            if(!n1 && !n2) continue;
+            if(!n1 || !n2 || n1->val != n2->val) return false;
+
+            st.push({n1->left, n2->left});
+            st.push({n1->right, n2->right});
         }
-        return false;
+        return true;
     }
 };
