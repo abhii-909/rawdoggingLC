@@ -1,5 +1,3 @@
-// Prefix array approach --> Method 1
-
 class Solution {
 public:
     int trap(vector<int>& height) {
@@ -18,15 +16,10 @@ public:
             rmax[i] = max(rmax[i+1], height[i]);
         }
 
-        int ans = 0;
+        int water = 0;
         for(int i = 0; i < n; i++){
-            ans += min(lmax[i], rmax[i]) - height[i];
+            water += (min(lmax[i], rmax[i]) - height[i]);
         }
-
-        return ans;
+        return water;
     }
 };
-
-
-// TC: O(n)
-// SC: O(n)
