@@ -11,22 +11,51 @@
  */
 class Solution {
 public:
-    void inOrder(TreeNode* root, vector<int> &in){
-        if(!root) return;
-        inOrder(root->left, in);
-        in.push_back(root->val);
-        inOrder(root->right, in);
+    stack<TreeNode*> s1, s2;
+
+    void pushLeft(TreeNode* root) {
+        while (root) {
+            s1.push(root);
+            root = root->left;
+        }
+    }
+
+    void pushRight(TreeNode* root) {
+        while (root) {
+            s2.push(root);
+            root = root->right;
+        }
     }
 
     bool findTarget(TreeNode* root, int k) {
-        vector<int> in;
-        inOrder(root, in);
-        int i = 0, j = in.size() - 1;
-        while(i<j){
-            if(in[i] + in[j] == k) return true;
-            if(in[i] + in[j] > k) j--;
-            else i++;
+        if (!root) return false;
+
+        pushLeft(root);
+        pushRight(root);
+
+        TreeNode* left = nullptr;
+        TreeNode* right = nullptr;
+
+        while (!s1.empty() && !s2.empty() && s1.top() != s2.top()) {
+            left = s1.top();
+            right = s2.top();
+
+            int sum = left->val + right->val;
+
+            if (sum == k) return true;
+
+            else if (sum < k) {
+                // move left pointer forward
+                s1.pop();
+                pushLeft(left->right);
+            } 
+            else {
+                // move right pointer back
+                s2.pop();
+                pushRight(right->left);
+            }
         }
+
         return false;
     }
 };
