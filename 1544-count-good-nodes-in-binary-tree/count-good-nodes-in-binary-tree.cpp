@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
-    int goodNodes(TreeNode* root) {
+    int goodNodes(TreeNode* root){
         return dfs(root, INT_MIN);
     }
 
@@ -22,9 +22,7 @@ private:
         int count = 0;
 
         //check if current node is good
-        if(root->val >= mx){
-            count = 1;
-        }
+        if(root->val >= mx) count = 1;
 
         int newMax = max(mx, root->val);
 
