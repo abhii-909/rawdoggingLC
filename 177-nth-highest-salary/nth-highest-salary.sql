@@ -1,14 +1,18 @@
-CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
+CREATE OR REPLACE FUNCTION NthHighestSalary(N INT) 
+RETURNS TABLE (Salary INT) AS $$
 BEGIN
-  RETURN (
-      # Write your MySQL query statement below.
-    select salary
-    from (
-        select salary, Dense_rank()
-        over (order by salary desc) as ranking
-        from Employee
-    ) as ranked_salaries
-    where ranking = N
-    limit 1
-  );
-END
+    RETURN QUERY
+    (
+        WITH SalaryRank AS (
+            SELECT DISTINCT
+                e.salary,
+                DENSE_RANK() OVER (ORDER BY e.salary DESC) AS rnk
+            FROM Employee e
+        )
+
+        SELECT MAX(sr.salary) AS Salary
+        FROM SalaryRank sr
+        WHERE sr.rnk = N
+    );
+END;
+$$ LANGUAGE plpgsql;
